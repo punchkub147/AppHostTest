@@ -1,0 +1,78 @@
+@import 'normalize.scss';
+
+@import './components/map.scss';
+
+h1{ color: red; }
+button{border: none;}
+
+
+#App{
+  position: relative;
+  height: 100vh;  
+}
+
+#Header{
+  .head{
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    background: gray;
+  }
+  .head-height{
+    @media screen and (max-width: 600px) {
+      height: 56px;
+    }
+    @media screen and (min-width: 600px) {
+      height: 64px;
+    }
+  }
+}
+
+#Home{
+  position: relative;
+  .button-create-item{
+    position: fixed;
+    z-index: 2;
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+#Login{
+}
+
+#Footer{
+  .foot{
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    background: gray;
+  }
+  .foot-height{
+    height: 56px;
+  }
+}
+
+
+
+
+// -----TRANSITION--------------------------
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
