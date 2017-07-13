@@ -64,9 +64,4 @@ class AppFooter extends Component {
   }
 }
 
-AppFooter.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-
 export default AppFooter;

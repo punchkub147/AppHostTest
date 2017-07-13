@@ -5,6 +5,7 @@ import {
   Link
 } from 'react-router-dom'
 
+import { MuiThemeProvider } from 'material-ui/styles';
 import './style/style.css';
 
 import Header from './components/Header';
@@ -14,10 +15,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Topics from './pages/Topics';
 import Login from './pages/Login';
-import ItemCreate from './pages/ItemCreate';
-import UserProfile from './pages/UserProfile';
-
-import { MuiThemeProvider } from 'material-ui/styles';
+import ItemCreate from './pages/Item/Create';
+import ItemEdit from './pages/Item/Edit';
+import UserProfile from './pages/User/Profile';
 
 class App extends Component {
 
@@ -58,6 +58,12 @@ class App extends Component {
         exact: false,
         header: Header,
         content: UserProfile,
+        footer: Footer,
+      },
+      { path: '/item/edit/',
+        exact: false,
+        header: Header,
+        content: ItemEdit,
         footer: Footer,
       },
     ]

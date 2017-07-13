@@ -57,13 +57,14 @@ class AppHeader extends Component {
   render() {
 
     const { user } = this.state;
-    const { location } = this.props
+    const { match } = this.props;
+
 
     return (
       <div id="Header">
         <AppBar position="static" className="head" >
           <Toolbar>
-            {location.pathname === '/item/create' ?
+            {(match.url === '/item/create' || match.url === '/item/edit/' ) ?
               (
                 <IconButton color="contrast" aria-label="Menu" onClick={() => this.props.history.push('/')}>
                   <ChevronLeft/>
@@ -76,7 +77,7 @@ class AppHeader extends Component {
             }
             
             <Typography type="title" color="inherit" style={{flex: 1}}>
-              {location.pathname}
+              {match.url}
             </Typography>
             
             {_.isEmpty(user) ?
@@ -102,7 +103,7 @@ class AppHeader extends Component {
           onRequestClose={() => this.setState({openMenu: false})}
           onClick={() => this.setState({openMenu: false})}
         >
-          <List disablePadding style={{width: '250px'}}>
+          <List disablePadding style={{width: '250px', 'text-decoration': 'none'}}>
             <Link to="/">
               <ListItem button>
                 <ListItemIcon>

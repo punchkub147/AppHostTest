@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import * as firebase from 'firebase';
 
 var config = {
   apiKey: "AIzaSyAAX51sxYIlv5DHhMI46dLvUYydK2lWAiY",
@@ -10,5 +10,31 @@ var config = {
 };
 firebase.initializeApp(config);
 
-export const database = () => firebase.database();
-export const storage = () => firebase.storage();
+export const db = firebase.database()
+export const storage = firebase.storage()
+
+export const writeUserData = (userId, username, email, profile_picture) => {
+  firebase.database().ref('users/' + userId).set({
+    username,
+    email,
+    profile_picture,
+  });
+}
+
+export const delteOnValue = (ref,key,value) => {
+  db.ref(ref).orderByChild(key).equalTo(value).on('value',snapshot => {
+    snapshot.forEach(snap => {
+      db.ref(ref).child(snap.key).remove()
+    })
+  });
+}
+
+export const setUserLocation = (userId,location) => {
+  firebase.database().ref('users').child(userId).update({
+    location,
+  })
+}
+
+export const getUserInfo = () => {
+
+}

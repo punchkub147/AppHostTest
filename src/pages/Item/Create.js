@@ -7,8 +7,9 @@ import moment from 'moment';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
+import Card, { CardMedia } from 'material-ui/Card';
 
-import * as firebase from 'firebase';
+import { db, storage } from '../../api/firebase';
 
 class ItemCreate extends Component {
 
@@ -16,6 +17,7 @@ class ItemCreate extends Component {
     title: '',
     description: '',
     file: '',
+    image64: '',
     imageUrl: '',
     disableSubmit: false, 
   }
@@ -34,24 +36,22 @@ class ItemCreate extends Component {
       this.setState({
         disableSubmit: true,
       })
-      firebase.storage().ref('items')
-      .child(imageId)
-      .put(file)
+      storage.ref('items').child(imageId).put(file)
       .then((snapshot) => {
+
         console.log('uploaded')
-        firebase.storage().ref('items')
-        .child(imageId)
-        .getDownloadURL()
+        storage.ref('items').child(imageId).getDownloadURL()
         .then((imageUrl) => {
 
-          firebase.database().ref('items')
-          .child(itemId)
-          .set({
+          db.ref('items')
+          .push({
+            itemId,
             title,
             description,
             imageUrl,
             createAt,
-          }).then(() => {
+          })
+          .then(() => {
             this.props.history.push('/')
           })
 
@@ -62,20 +62,35 @@ class ItemCreate extends Component {
 
   }
 
-  handleChange = (info) => {
+  handleChange = (e) => {
+    const file = e.target.files[0];
+    const _this = this
+    
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      _this.setState({ 
+        file, 
+        image64: reader.result
+      })
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
 
-
+    
   }
 
   render() {
     
-    const { disableSubmit } = this.state;
+    const { disableSubmit, image64 } = this.state;
     const imageUrl = this.state.imageUrl;
+    console.log('State',this.state)
 
     return (
       <div id="ItemCerate">
-        <Grid container gutter={0} justify={'center'}>
-          <Grid item xs={10} sm={6} md={4} >
+        <Grid container justify={'center'} id="wrapper">
+          <Grid item xs={12} sm={6} md={4} >
             <h1>Create Item</h1>
             <form onSubmit={this.handleSubmit}>
               <TextField
@@ -94,14 +109,17 @@ class ItemCreate extends Component {
               />
               <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" 
                 style={{display: 'none'}}
-                onChange={e => this.setState({ file: e.target.files[0] })}
+                onChange={this.handleChange}
               />
               <label htmlFor="file">
                 <Button raised component="span">
                   Upload
                 </Button>
               </label>
-              <button onSubmit={this.handleSubmit} style={{width: '100%'}}>
+              {image64 &&
+                <img src={image64} alt="Contemplative Reptile" style={{width: '100%'}} />
+              }
+              <button onSubmit={this.handleSubmit} style={{width: '100%', padding: 0}}>
                 <Button raised color="accent" style={{width: '100%'}} disabled={disableSubmit}>
                   POST
                 </Button>

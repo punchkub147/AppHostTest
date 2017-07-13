@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import cuid from 'cuid';
 import _ from 'lodash';
+import Map from '../components/Map';
 
 import * as firebase from 'firebase';
 
@@ -20,7 +21,7 @@ class About extends Component {
 
     return (
       <div id="About">
-
+        <Map/>
       </div>
     );
   }
