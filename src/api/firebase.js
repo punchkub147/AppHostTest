@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import moment from 'moment';
 
 var config = {
   apiKey: "AIzaSyAAX51sxYIlv5DHhMI46dLvUYydK2lWAiY",
@@ -32,6 +33,7 @@ export const delteOnValue = (ref,key,value) => {
 export const setUserLocation = (userId,location) => {
   firebase.database().ref('users').child(userId).update({
     location,
+    updateLocationTime: moment().format(),
   })
 }
 

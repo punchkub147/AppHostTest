@@ -53,6 +53,7 @@ class Login extends Component {
 
   render () {
     const { disableEdit, disableLogout, user } = this.state
+    console.log('USER',this.state.user)
     
     return (
       <div id="Login">

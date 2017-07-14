@@ -42,8 +42,11 @@ class Login extends Component {
   handleSignIn = (e) => {
     e.preventDefault();
     this.setState({ disableLogin: true, })
-    firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password)  
-    this.props.history.push('/')  
+    firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password)
+    .then(() => {
+      this.props.history.push('/')  
+    })  
+    
   }
 
   handleRegister = (e) => {
@@ -78,9 +81,14 @@ class Login extends Component {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
       // The signed-in user info.
-      var user = result.user;
+      let user = result.user;
 
-      console.log('FACEBOOK RESULT',result)
+      console.log('FACEBOOK RESULT',user)
+      firebase.database().ref('users').child(user.uid).update({
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      })
+      console.log('UPDATE')
       // ...
     }).catch(function(error) {
       // Handle Errors here.

@@ -3,7 +3,12 @@ import Grid from 'material-ui/Grid';
 import styled from 'styled-components';
 import * as firebase from 'firebase'
 import { setUserLocation } from '../../api/firebase'
+import moment from 'moment'
 
+import Button from 'material-ui/Button';
+import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
 /* global google */
 
 //const GOOGLE_API_KEY = 'AIzaSyASX7Jx6lyf7Q_Ok8RIowJQGAbEbVB8LMU';
@@ -25,7 +30,8 @@ class Map extends Component {
     userPos: {
       lat: 0,
       lng: 0,
-    }
+    },
+    openSnackbar: false,
   }
   
   componentDidMount(){
@@ -36,11 +42,8 @@ class Map extends Component {
         })
         this.initMap()
       }else{
-        this.setState({
-          user: {
-            uid: ''
-          },
-        })
+        this.setState({openSnackbar: true})
+        //this.props.history.push('/login')
       }
     })
   }
@@ -66,16 +69,31 @@ class Map extends Component {
         const marker = new google.maps.Marker({
           map: map,
           position: location,
-          label: 'คุณอยู่ที่นี่',
+          label: {
+            text: 'HERE',
+            color: "#eb3a44",
+            fontSize: "16px",
+            fontWeight: "bold"
+          },
           animation: google.maps.Animation.DROP,
+          icon: {
+            url: 'http://www.flaticon.com/premium-icon/icons/svg/186/186250.svg',
+            scale: 10,
+            size: new google.maps.Size(40, 40),
+            scaledSize: new google.maps.Size(40, 40),
+          }
         });
 
         firebase.database().ref('users').on('child_added',snapshot => {
-          console.log('SNAPSHOT',snapshot.val())
-          const label = snapshot.val().email;
-          const lat = snapshot.val().location.lat;
-          const lng = snapshot.val().location.lng;
-          this.addMarker({lat, lng}, label, map )
+          console.log('SNAPSHOTAAAAA',snapshot.val())
+          //const label = snapshot.val().displayName;
+          if (user.uid === snapshot.key){
+            const user = snapshot.val();
+            const lat = snapshot.val().location.lat;
+            const lng = snapshot.val().location.lng;
+            this.addMarker({lat, lng}, user, map )
+          }
+          
         })
       })
     }
@@ -110,12 +128,33 @@ class Map extends Component {
     //   infoWindow.open(map);
     // }
   }
-  addMarker = (position, label, map) => {
-    console.log('POS',position)
-    var marker = new google.maps.Marker({
+  addMarker = (position, user, map) => {
+    console.log('DATA USER',user)
+
+    const marker = new google.maps.Marker({
       position,
-      label,
+      icon: { 
+        url: user.photoURL,
+        size: new google.maps.Size(40, 40),
+        scaledSize: new google.maps.Size(40, 40),
+        //origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(20, 20),
+        
+      },
+      shape: {
+        coords:[17,17,18],
+        type: 'circle',
+      },
       map,
+    });
+
+    const time = moment(user.updateLocationTime).fromNow()
+    marker.info = new google.maps.InfoWindow({
+      content: '<div><b>'+user.displayName+'</b><br/>'+time+'</div>'
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      marker.info.open(map, marker);
     });
   }
   // handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
@@ -127,13 +166,39 @@ class Map extends Component {
   // }
 
   render() {
-    console.log('STATE',this.state)
-    
+
     return (
       <div id="Map">
         <Container>
           <div ref={c => this.map = c} style={mapStyle}></div>
         </Container>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.openSnackbar}
+          //autoHideDuration={6e3}
+          onRequestClose={() => this.setState({openSnackbar: true})}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Please Login</span>}
+          action={[
+            <Button key="undo" color="accent" dense onClick={() => this.props.history.push('/login')}>
+              LOGIN
+            </Button>,
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={() => this.setState({openSnackbar: true})}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       </div>
     );
   }

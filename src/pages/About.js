@@ -21,7 +21,7 @@ class About extends Component {
 
     return (
       <div id="About">
-        <Map/>
+        <Map history={this.props.history}/>
       </div>
     );
   }
