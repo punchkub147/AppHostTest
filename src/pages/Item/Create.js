@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import cuid from 'cuid';
 import _ from 'lodash';
-import { Redirect } from 'react-router';
+//import { Redirect } from 'react-router';
 import moment from 'moment';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import Card, { CardMedia } from 'material-ui/Card';
+//import Card, { CardMedia } from 'material-ui/Card';
 
 import { db, storage } from '../../api/firebase';
 
@@ -84,7 +84,7 @@ class ItemCreate extends Component {
   render() {
     
     const { disableSubmit, image64 } = this.state;
-    const imageUrl = this.state.imageUrl;
+    //const imageUrl = this.state.imageUrl;
     console.log('State',this.state)
 
     return (

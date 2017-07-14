@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Grid from 'material-ui/Grid';
+//import Grid from 'material-ui/Grid';
 import styled from 'styled-components';
 import * as firebase from 'firebase'
 import { setUserLocation } from '../../api/firebase'
@@ -50,7 +50,7 @@ class Map extends Component {
 
   initMap = () => {
     //const position = {lat: 13.795108, lng: 100.5447481};
-    const infoWindow = new google.maps.InfoWindow;
+    const infoWindow = new google.maps.InfoWindow();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
 
@@ -71,13 +71,13 @@ class Map extends Component {
           position: location,
           label: {
             text: 'HERE',
-            color: "#eb3a44",
+            color: "black",
             fontSize: "16px",
             fontWeight: "bold"
           },
           animation: google.maps.Animation.DROP,
           icon: {
-            url: 'http://www.flaticon.com/premium-icon/icons/svg/186/186250.svg',
+            //url: 'http://www.flaticon.com/premium-icon/icons/svg/186/186250.svg',
             scale: 10,
             size: new google.maps.Size(40, 40),
             scaledSize: new google.maps.Size(40, 40),
@@ -85,7 +85,7 @@ class Map extends Component {
         });
 
         firebase.database().ref('users').on('child_added',snapshot => {
-          console.log('SNAPSHOTAAAAA',snapshot.val())
+          //console.log('SNAPSHOTAAAAA',snapshot.val())
           //const label = snapshot.val().displayName;
           if (user.uid !== snapshot.key){
             const user = snapshot.val();
@@ -129,7 +129,7 @@ class Map extends Component {
     // }
   }
   addMarker = (position, user, map) => {
-    console.log('DATA USER',user)
+    //console.log('DATA USER',user)
 
     const marker = new google.maps.Marker({
       position,

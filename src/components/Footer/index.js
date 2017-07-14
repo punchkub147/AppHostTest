@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link
+// } from 'react-router-dom'
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
-import BottomNavigation, { BottomNavigationButton } from 'material-ui/BottomNavigation';
-import RestoreIcon from 'material-ui-icons/Restore';
-import FavoriteIcon from 'material-ui-icons/Favorite';
-import LocationOnIcon from 'material-ui-icons/LocationOn';
-import FolderIcon from 'material-ui-icons/Folder';
+// import { withStyles, createStyleSheet } from 'material-ui/styles';
+// import BottomNavigation, { BottomNavigationButton } from 'material-ui/BottomNavigation';
+// import RestoreIcon from 'material-ui-icons/Restore';
+// import FavoriteIcon from 'material-ui-icons/Favorite';
+// import LocationOnIcon from 'material-ui-icons/LocationOn';
+// import FolderIcon from 'material-ui-icons/Folder';
 
-import _ from 'lodash';
+// import _ from 'lodash';
 
 class AppFooter extends Component {
 

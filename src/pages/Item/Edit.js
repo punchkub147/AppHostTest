@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import cuid from 'cuid';
+//import cuid from 'cuid';
 import _ from 'lodash';
-import { Redirect } from 'react-router';
+//import { Redirect } from 'react-router';
 import moment from 'moment';
 import queryString from 'query-string';
 
@@ -115,7 +115,7 @@ class ItemCreate extends Component {
 
   render() {
     
-    const { disableSubmit, item, title, description, image64 } = this.state;
+    const { disableSubmit, title, description, image64 } = this.state;
     console.log('State',this.state)
 
     return (

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+//import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -12,19 +12,19 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Avatar from 'material-ui/Avatar';
-import Icon from 'material-ui/Icon';
+//import Icon from 'material-ui/Icon';
 import ChevronLeft from 'material-ui-icons/ChevronLeft';
 
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
+//import Divider from 'material-ui/Divider';
 import InboxIcon from 'material-ui-icons/Inbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
+//import DraftsIcon from 'material-ui-icons/Drafts';
 import StarIcon from 'material-ui-icons/Star';
 import SendIcon from 'material-ui-icons/Send';
-import MailIcon from 'material-ui-icons/Mail';
-import DeleteIcon from 'material-ui-icons/Delete';
-import ReportIcon from 'material-ui-icons/Report';
+//import MailIcon from 'material-ui-icons/Mail';
+//import DeleteIcon from 'material-ui-icons/Delete';
+//import ReportIcon from 'material-ui-icons/Report';
 
 
 class AppHeader extends Component {

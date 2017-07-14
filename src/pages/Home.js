@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
 
-import * as firebase from 'firebase';
-import { db, storage, getItems, delteOnValue } from '../api/firebase';
+//import * as firebase from 'firebase';
+import { db, storage, delteOnValue } from '../api/firebase';
 
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import ModeEditIcon from 'material-ui-icons/ModeEdit';
+//import ModeEditIcon from 'material-ui-icons/ModeEdit';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { CircularProgress } from 'material-ui/Progress';

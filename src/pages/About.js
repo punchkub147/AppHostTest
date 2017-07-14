@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import cuid from 'cuid';
-import _ from 'lodash';
+// import cuid from 'cuid';
+// import _ from 'lodash';
 import Map from '../components/Map';
 
-import * as firebase from 'firebase';
+//import * as firebase from 'firebase';
 
 class About extends Component {
 
@@ -17,7 +17,6 @@ class About extends Component {
   }
 
   render() {
-    const { users, disabled } = this.state;
 
     return (
       <div id="About">
