@@ -87,7 +87,7 @@ class Map extends Component {
         firebase.database().ref('users').on('child_added',snapshot => {
           console.log('SNAPSHOTAAAAA',snapshot.val())
           //const label = snapshot.val().displayName;
-          if (user.uid === snapshot.key){
+          if (user.uid !== snapshot.key){
             const user = snapshot.val();
             const lat = snapshot.val().location.lat;
             const lng = snapshot.val().location.lng;
