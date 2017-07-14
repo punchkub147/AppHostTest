@@ -9,11 +9,14 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 //import Card, { CardMedia } from 'material-ui/Card';
 
+import * as firebase from 'firebase'
+
 import { db, storage } from '../../api/firebase';
 
 class ItemCreate extends Component {
 
   state = {
+    user: {},
     title: '',
     description: '',
     file: '',
@@ -22,13 +25,26 @@ class ItemCreate extends Component {
     disableSubmit: false, 
   }
 
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(firebaseUser){
+        this.setState({
+          user: firebaseUser,
+        })
+      }else{
+        //this.setState({openSnackbar: true})
+        //this.props.history.push('/login')
+      }
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
     const { title, description, file } = this.state 
     const itemId = cuid();
-    const imageId = 'image_'+itemId;
     const createAt = moment().format();
+    const userId = this.state.user.uid
 
     if( _.isEmpty(title) || _.isEmpty(description) || _.isEqual(file,'') ){
 
@@ -36,11 +52,11 @@ class ItemCreate extends Component {
       this.setState({
         disableSubmit: true,
       })
-      storage.ref('items').child(imageId).put(file)
+      storage.ref('items').child(itemId).put(file)
       .then((snapshot) => {
 
         console.log('uploaded')
-        storage.ref('items').child(imageId).getDownloadURL()
+        storage.ref('items').child(itemId).getDownloadURL()
         .then((imageUrl) => {
 
           db.ref('items')
@@ -50,6 +66,7 @@ class ItemCreate extends Component {
             description,
             imageUrl,
             createAt,
+            userId,
           })
           .then(() => {
             this.props.history.push('/')

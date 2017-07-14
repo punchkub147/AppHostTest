@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import moment from 'moment';
+import _ from 'lodash';
 
 var config = {
   apiKey: "AIzaSyAAX51sxYIlv5DHhMI46dLvUYydK2lWAiY",
@@ -14,6 +15,26 @@ firebase.initializeApp(config);
 export const db = firebase.database()
 export const storage = firebase.storage()
 
+export const getItemWithOwner = async () => {
+  const items = await db.ref('items').on('value');
+  console.log('items', items)
+  // db.ref('items').on('value', snapItems => {
+  //   let items = [];
+  //   const data =_.map(snapItems.val(), (snapItem) => {
+  //     return db.ref('users').child(snapItem.val().userId).on('value', user => {
+  //       items.push(_.extend(snapItem.val(), {user: user.val()}))
+  //       console.log('GET ITEMS',items)
+  //       return items
+  //     })
+  //   });
+  //   console.log('snapItems',data);
+  // })
+
+  // return db.ref('users').once('value').then(function(snapshot) {
+  //   return snapshot.val();
+  // }) 
+}
+
 export const writeUserData = (userId, username, email, profile_picture) => {
   firebase.database().ref('users/' + userId).set({
     username,
@@ -22,7 +43,7 @@ export const writeUserData = (userId, username, email, profile_picture) => {
   });
 }
 
-export const delteOnValue = (ref,key,value) => {
+export const deleteOnValue = (ref,key,value) => {
   db.ref(ref).orderByChild(key).equalTo(value).on('value',snapshot => {
     snapshot.forEach(snap => {
       db.ref(ref).child(snap.key).remove()

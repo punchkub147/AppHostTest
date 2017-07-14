@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
 
-//import * as firebase from 'firebase';
-import { db, storage, delteOnValue } from '../api/firebase';
+import * as firebase from 'firebase';
+import { db, storage, deleteOnValue, getItemWithOwner } from '../api/firebase';
 
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
@@ -24,36 +24,44 @@ import Dialog, {
 class Home extends Component {
 
   state = {
-    items: {
-      
-    },
+    items: {},
+    user: {},
     dialogDelete: false,
   }
 
   componentDidMount(){
 
-    db.ref('items')
-    .on('value', snapshot => {
-      let items = snapshot.val()
-      this.setState({
-        items,
+    this.getItems()
+
+  }
+
+  getItems = () => {    
+    db.ref('items').on('value', snapItems => {
+      let items = [];
+      snapItems.forEach(snapItem => {
+        db.ref('users').child(snapItem.val().userId).on('value', user => {
+          items.push(_.extend(snapItem.val(), {user: user.val()}))
+          this.setState({
+            items,
+          })
+        })
       })
-    });
+    })
   }
 
   handleDeleteItem = (itemId) => {
 
-    delteOnValue('items','itemId',itemId); //(ref,key,value)
-    storage.ref('items').child('image_'+itemId).delete();
+    deleteOnValue('items','itemId',itemId); //(ref,key,value)
+    storage.ref('items').child(itemId).delete();
 
+    this.setState({dialogDelete: false})
   }
 
   render() {
 
     let { items, dialogDelete } = this.state
 
-    items = _.orderBy(items, 'createAt', 'desc')
-    items = _.take(items, 3)
+    console.log('STATE', this.state)
 
     return (
       <div id="Home">
@@ -88,7 +96,7 @@ class Home extends Component {
                           {data.description}
                         </Typography>
                         <Typography type="caption">
-                          {moment(data.createAt).fromNow()}
+                          {data.user.displayName} on {moment(data.createAt).fromNow()}
                         </Typography>
                       </CardContent>
                       <CardActions>
