@@ -31,20 +31,11 @@ class Home extends Component {
 
   componentDidMount(){
 
-    this.getItems()
+    //this.getItems()
 
-  }
-
-  getItems = () => {    
-    db.ref('items').on('value', snapItems => {
-      let items = [];
-      snapItems.forEach(snapItem => {
-        db.ref('users').child(snapItem.val().userId).on('value', user => {
-          items.push(_.extend(snapItem.val(), {user: user.val()}))
-          this.setState({
-            items,
-          })
-        })
+    getItemWithOwner((items) => {
+      this.setState({
+        items,
       })
     })
   }
@@ -60,8 +51,6 @@ class Home extends Component {
   render() {
 
     let { items, dialogDelete } = this.state
-
-    console.log('STATE', this.state)
 
     return (
       <div id="Home">

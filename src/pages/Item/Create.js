@@ -101,8 +101,6 @@ class ItemCreate extends Component {
   render() {
     
     const { disableSubmit, image64 } = this.state;
-    //const imageUrl = this.state.imageUrl;
-    console.log('State',this.state)
 
     return (
       <div id="ItemCerate">

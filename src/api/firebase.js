@@ -15,24 +15,22 @@ firebase.initializeApp(config);
 export const db = firebase.database()
 export const storage = firebase.storage()
 
-export const getItemWithOwner = async () => {
-  const items = await db.ref('items').on('value');
-  console.log('items', items)
-  // db.ref('items').on('value', snapItems => {
-  //   let items = [];
-  //   const data =_.map(snapItems.val(), (snapItem) => {
-  //     return db.ref('users').child(snapItem.val().userId).on('value', user => {
-  //       items.push(_.extend(snapItem.val(), {user: user.val()}))
-  //       console.log('GET ITEMS',items)
-  //       return items
-  //     })
-  //   });
-  //   console.log('snapItems',data);
-  // })
-
-  // return db.ref('users').once('value').then(function(snapshot) {
-  //   return snapshot.val();
-  // }) 
+export const getItemWithOwner = (callback) => {
+  db.ref('items').on('value', (snapItems) => {
+    let items = [];
+    snapItems.forEach((snapItem) => {
+      db.ref('users').child(snapItem.val().userId).on('value', (user) => {
+        const itemWithOwner = _.extend(snapItem.val(), {user: user.val()})
+        const inItem = _.findKey(items,['itemId', snapItem.val().itemId])
+        if(inItem !== undefined){
+          items[inItem] = itemWithOwner
+        }else{
+          items.push(itemWithOwner)
+        }
+        return callback(items)
+      })
+    });
+  })
 }
 
 export const writeUserData = (userId, username, email, profile_picture) => {

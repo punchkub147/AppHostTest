@@ -1,10 +1,18 @@
 {
   "hosting": {
+    "firebase": "Sparking",
     "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "redirects": [
+    {
+      "source": "/",
+      "destination": "/build/index.html",
+      "type": 302
+    }
+  ]
   }
 }
